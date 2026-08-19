@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Vinicius Run ⚽</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="game">
+    <div class="top">
+      <span>⭐ <b id="score">0</b></span>
+      <span>🪙 <b id="coins">0</b></span>
+      <span>🏃 <b id="speed">1x</b></span>
+    </div>
+
+    <canvas id="gameCanvas"></canvas>
+
+    <div id="startScreen" class="screen">
+      <h1>⚽ VINICIUS RUN</h1>
+      <p>ساعد فينيسيوس يجري ويتجنب العوائق!</p>
+      <button id="startButton">ابدأ اللعب 🎮</button>
+    </div>
+
+    <div id="gameOver" class="screen hidden">
+      <h1>💥 انتهت اللعبة</h1>
+      <p>النقاط: <b id="finalScore">0</b></p>
+      <button id="restartButton">العب مرة أخرى 🔄</button>
+    </div>
+
+    <div class="controls">
+      <button id="left">⬅️</button>
+      <button id="jump">⬆️</button>
+      <button id="right">➡️</button>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+
+</body>
+</html>
