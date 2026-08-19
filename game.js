@@ -26,9 +26,9 @@ resize();
 
 let player;
 let obstacles;
-let coins;
+let bananas;
 let score;
-let coinCount;
+let bananaCount;
 let gameSpeed;
 let running;
 let lastTime;
@@ -45,10 +45,10 @@ function resetGame() {
   };
 
   obstacles = [];
-  coins = [];
+  bananas = [];
 
   score = 0;
-  coinCount = 0;
+  bananaCount = 0;
   gameSpeed = 7;
   running = true;
 
@@ -57,7 +57,7 @@ function resetGame() {
 
 function updateText() {
   scoreText.textContent = Math.floor(score);
-  coinsText.textContent = coinCount;
+  coinsText.textContent = bananaCount;
   speedText.textContent = (gameSpeed / 7).toFixed(1) + "x";
 }
 
@@ -104,7 +104,7 @@ function drawPlayer() {
 
   player.y = y;
 
-  // جسم اللاعب
+  // الجسم
   ctx.fillStyle = "#fff";
   ctx.fillRect(x - 25, y + 25, 50, 45);
 
@@ -125,12 +125,13 @@ function drawPlayer() {
   ctx.fillRect(x - 23, y + 65, 20, 20);
   ctx.fillRect(x + 3, y + 65, 20, 20);
 
-  // الكرة
+  // كرة القدم
   ctx.fillStyle = "#fff";
   ctx.beginPath();
   ctx.arc(x + 38, y + 65, 9, 0, Math.PI * 2);
   ctx.fill();
 
+  // حرف V
   ctx.fillStyle = "#111";
   ctx.font = "bold 9px Arial";
   ctx.textAlign = "center";
@@ -146,11 +147,11 @@ function createObstacle() {
   });
 }
 
-function createCoin() {
-  coins.push({
+function createBanana() {
+  bananas.push({
     lane: Math.floor(Math.random() * 3),
     y: -30,
-    size: 16
+    size: 18
   });
 }
 
@@ -173,20 +174,15 @@ function drawObstacles() {
   });
 }
 
-function drawCoins() {
-  coins.forEach(c => {
-    const x = laneX(c.lane);
+function drawBananas() {
+  bananas.forEach(b => {
+    const x = laneX(b.lane);
 
-    ctx.fillStyle = "#ffd21c";
-
-    ctx.beginPath();
-    ctx.arc(x, c.y, c.size, 0, Math.PI * 2);
-    ctx.fill();
-
-    ctx.fillStyle = "#fff";
-    ctx.font = "bold 14px Arial";
+    ctx.font = "34px Arial";
     ctx.textAlign = "center";
-    ctx.fillText("$", x, c.y + 5);
+    ctx.textBaseline = "middle";
+
+    ctx.fillText("🍌", x, b.y);
   });
 }
 
@@ -209,19 +205,19 @@ function update(dt) {
   }
 
   if (Math.random() < dt * 1.1) {
-    createCoin();
+    createBanana();
   }
 
   obstacles.forEach(o => {
     o.y += gameSpeed * dt * 60;
   });
 
-  coins.forEach(c => {
-    c.y += gameSpeed * dt * 60;
+  bananas.forEach(b => {
+    b.y += gameSpeed * dt * 60;
   });
 
   obstacles = obstacles.filter(o => o.y < H + 100);
-  coins = coins.filter(c => c.y < H + 100);
+  bananas = bananas.filter(b => b.y < H + 100);
 
   if (player.jumping) {
     player.jumpPower += 900 * dt;
@@ -246,12 +242,12 @@ function update(dt) {
     }
   }
 
-  coins = coins.filter(c => {
-    const dx = Math.abs(laneX(c.lane) - player.x);
-    const dy = Math.abs(c.y - (player.y + 40));
+  bananas = bananas.filter(b => {
+    const dx = Math.abs(laneX(b.lane) - player.x);
+    const dy = Math.abs(b.y - (player.y + 40));
 
     if (dx < 45 && dy < 55) {
-      coinCount++;
+      bananaCount++;
       score += 25;
       return false;
     }
@@ -269,7 +265,7 @@ function draw() {
   ctx.fillRect(0, 0, W, H);
 
   drawRoad();
-  drawCoins();
+  drawBananas();
   drawObstacles();
   drawPlayer();
 }
